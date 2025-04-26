@@ -1,5 +1,5 @@
 import Keycloak from 'keycloak-js';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const KEYCLOAK_HOST = 'http://localhost:8282/';
 const SOVCOMCHECK = 'sovcomcheck';
@@ -25,10 +25,14 @@ const getUserName = () => {
 };
 
 const getUserId = () => {
-    const data = getTokenData();
-    return data ? data.sub : null; // Поле sub содержит ID пользователя
-  };
+  const data = getTokenData();
+  return data ? data.sub : null;
+};
 
+const getUserRoles = () => {
+  const data = getTokenData();
+  return data?.realm_access?.roles || [];
+};
 
 const isAuthenticated = () => kc.authenticated;
 
@@ -36,5 +40,7 @@ export default {
   kc,
   getUserName,
   getUserId,
+  getUserRoles,
+  getTokenData,
   isAuthenticated,
 };
