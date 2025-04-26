@@ -1,0 +1,146 @@
+/* FileUploadComponent.module.css */
+@media (min-width: 768px) {
+    html, body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  }
+/* FileUploadComponent.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    max-width: 420px; /* Немного увеличил максимальную ширину */
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .previewContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .previewImage {
+    max-width: 100%;
+    max-height: 220px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #45a049;
+  }
+  
+  .button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .hiddenInput {
+    display: none;
+  }
+  
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid #4CAF50;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Стили для чека - сделаны чуть шире */
+  .serverResponse {
+    width: 100%;
+    max-width: 360px; /* Увеличил ширину чека */
+    background-color: white;
+    padding: 12px; /* Немного увеличил отступы */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Courier New', monospace;
+    font-size: 13px; /* Слегка увеличил размер шрифта */
+    line-height: 1.35;
+    white-space: pre-wrap;
+    border: 1px dashed #ccc;
+    /* Убрал transform: scale, чтобы чек был естественного размера */
+  }
+  
+  .serverResponse table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .serverResponse td {
+    padding: 3px 0; /* Немного увеличил отступы */
+    vertical-align: top;
+  }
+  
+  .serverResponse tr.b-check_center td {
+    text-align: center;
+  }
+  
+  .serverResponse tr.b-check_itogo td {
+    font-weight: bold;
+    border-top: 1px dashed #000;
+    padding-top: 6px;
+  }
+  
+  .serverResponse td:nth-child(3) {
+    text-align: right;
+    padding-right: 12px; /* Немного увеличил отступ */
+  }
+  
+  .serverResponse td:nth-child(4),
+  .serverResponse td:nth-child(5) {
+    text-align: right;
+  }
+  
+  .serverResponse img {
+    display: block;
+    margin: 8px auto; /* Немного увеличил отступы */
+    border: 1px solid #eee;
+    width: 110px; /* Чуть увеличил QR-код */
+    height: 110px;
+  }
+  
+  .serverResponse tr:last-child td {
+    padding-bottom: 8px;
+  }
+  
+  .serverResponse tr:first-child td {
+    font-weight: bold;
+    padding-top: 0;
+  }
+  
+  .serverResponse tr:nth-child(2) td {
+    font-size: 12px;
+    padding-bottom: 6px;
+  }
+  
+  .serverResponse tr:nth-child(6) td {
+    padding-top: 8px;
+  }
+  
+  .serverResponse tr:nth-child(7) td {
+    padding-bottom: 8px;
+  }

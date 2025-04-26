@@ -1,0 +1,122 @@
+.sliderContainer {
+    text-align: center;
+    padding: 5px 0;
+    background: linear-gradient(180deg, #e8f4ff 0%, #d6ecff 100%);
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(65, 132, 234, 0.1);
+    width: 100%;
+    overflow: hidden; /* Убираем возможные скроллы */
+  }
+  
+  .sliderWrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .sliderViewport {
+    overflow: hidden;
+    width: 100%;
+    cursor: grab;
+  }
+  
+  .sliderViewport:active {
+    cursor: grabbing;
+  }
+  
+  .sliderTrack {
+    display: flex;
+    gap: 15px;
+    padding: 10px 0;
+    margin: 0;
+  }
+  
+  .slide {
+    min-width: 160px; /* Увеличил ширину для десктопа */
+    padding: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  
+  .partnerLogo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 130px; /* Увеличил высоту для десктопа */
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(65, 132, 234, 0.1);
+    transition: all 0.3s ease;
+    padding: 20px;
+    border: 1px solid rgba(65, 132, 234, 0.1);
+  }
+  
+  .partnerLogo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(65, 132, 234, 0.2);
+  }
+  
+  .logoImage {
+    width: 60px; /* Увеличил лого для десктопа */
+    height: 60px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  
+  .partnerLogo:hover .logoImage {
+    transform: scale(1.1);
+  }
+  
+  .logoName {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2a4e8a;
+    transition: color 0.3s ease;
+  }
+  
+  @media (max-width: 767px) {
+    .sliderContainer {
+      padding: 15px 0;
+    }
+    
+    .slide {
+      min-width: 120px;
+    }
+    
+    .partnerLogo {
+      height: 100px;
+      padding: 15px;
+    }
+    
+    .logoImage {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .logoName {
+      font-size: 0.75rem;
+    }
+    
+    .sliderTrack {
+      gap: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .slide {
+      min-width: 110px;
+    }
+    
+    .partnerLogo {
+      height: 90px;
+      padding: 10px;
+    }
+  }
