@@ -1,0 +1,187 @@
+/* UserChecksList.module.css */
+
+/* Основной контейнер */
+.mainContainer {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: linear-gradient(180deg, #f6f9ff 0%, #e8f4ff 100%);
+  overflow: hidden;
+}
+
+.contentWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1.5rem auto 0;
+  padding: 0 16px 3rem;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+.infoBlock {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(65, 132, 234, 0.1);
+  width: 100%;
+  flex: 1;
+  border: 1px solid rgba(65, 132, 234, 0.1);
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Заголовок страницы */
+.pageTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2a4e8a;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Список чеков */
+.checkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checkItem {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(65, 132, 234, 0.1);
+  padding: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent; /* Визуальная подсказка при наведении */
+}
+
+.checkItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(65, 132, 234, 0.2);
+  border-color: #2a4e8a; /* Подчеркивание при наведении */
+}
+
+.checkItemDetails {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.checkItemDetails strong {
+  color: #2a4e8a;
+  margin-right: 8px;
+}
+
+/* Пагинация */
+.paginationButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.paginationButton {
+  padding: 10px;
+  border: none;
+  border-radius: 50%; /* Круглая форма для стрелок */
+  background: linear-gradient(145deg, #ffffff, #f0f7ff);
+  box-shadow: 0 4px 8px rgba(65, 132, 234, 0.15);
+  color: #2a4e8a;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.paginationButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(65, 132, 234, 0.2);
+  background: linear-gradient(145deg, #ffffff, #e0eeff);
+}
+
+.paginationButton:disabled {
+  background: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.paginationCurrentPage {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a4e8a;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 20px;
+  }
+
+  .checkItem {
+    padding: 10px;
+  }
+
+  .checkItemDetails {
+    font-size: 12px;
+  }
+
+  .paginationButton {
+    padding: 8px;
+    font-size: 14px;
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .infoBlock {
+    padding: 15px;
+  }
+
+  .contentWrapper {
+    align-items: center; /* Центрирование контейнера */
+  }
+
+  .pageTitle {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .checkItem {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .checkItemDetails {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+
+  .paginationButtons {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .paginationButton {
+    padding: 6px;
+    font-size: 14px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .paginationCurrentPage {
+    font-size: 14px;
+  }
+}

@@ -144,3 +144,35 @@
   .serverResponse tr:nth-child(7) td {
     padding-bottom: 8px;
   }
+
+  .confirmButtons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .confirmButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .confirmButton:hover {
+    background-color: #218838;
+  }
+  
+  .cancelButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cancelButton:hover {
+    background-color: #c82333;
+  }

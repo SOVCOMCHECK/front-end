@@ -39,7 +39,7 @@ const Header = ({ logoText, avatarUrl, notificationCount = 3 }) => {
         </Link>
 
         {/* Действия справа */}
-        {kc.authenticated && <div className={styles.headerContainer_actions}>
+        {authService.isAuthenticated && <div className={styles.headerContainer_actions}>
           {/* Иконка уведомлений */}
           <div className={styles.headerContainer_dropdown}>
             <div 

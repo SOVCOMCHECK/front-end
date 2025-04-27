@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 import styles from './BalanceInfoCard.module.css';
+import { GLOBAL_HOST } from '../../App';
+import authService from '../../authService';
 
 const BalanceInfoCard = () => {
-  const data = [
-    { name: 'Красота', value: 7000 },
-    { name: 'Продукты', value: 18000 },
-    { name: 'Спортивные товары', value: 3000 },
-  ];
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Генерация случайных цветов
   const generateRandomColors = (count) => {
@@ -18,10 +17,52 @@ const BalanceInfoCard = () => {
     return colors;
   };
 
+  useEffect(() => {
+  console.log(authService.getUserId());
+  
+
+    const fetchData = async () => {
+      try {
+         // Получаем ID пользователя
+        const from = '2023-01-01T00:00:00'; // Пример даты "от"
+        const to = '2025-12-31T23:59:59'; // Пример даты "до"
+
+        const response = await fetch(
+          `${GLOBAL_HOST}/analytics/summary?userId=${authService.getUserId()}&from=${from}&to=${to}`
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch analytics data');
+        }
+
+        const result = await response.json();
+
+        console.log(result);
+        
+        const formattedData = Object.entries(result).map(([name, value]) => ({
+          name,
+          value,
+        }));
+
+        setData(formattedData);
+      } catch (error) {
+        console.error('Error fetching analytics:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  } 
+
   const COLORS = generateRandomColors(data.length);
 
   const total = data.reduce((acc, item) => acc + item.value, 0);
-  const percent = Math.round((data[0].value / total) * 100);
+  const percent = Math.round((data[0]?.value / total) * 100);
 
   return (
     <div className={styles.card}>
@@ -33,15 +74,15 @@ const BalanceInfoCard = () => {
         {/* График */}
         <div className={styles.chartWrapper}>
           <PieChart
-            width={window.innerWidth > 768 ? 240 : 180} // Увеличенная ширина
-            height={window.innerWidth > 768 ? 240 : 180} // Увеличенная высота
+            width={window.innerWidth > 768 ? 240 : 180}
+            height={window.innerWidth > 768 ? 240 : 180}
           >
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius={window.innerWidth > 768 ? 80 : 60} // Увеличен внутренний радиус
-              outerRadius={window.innerWidth > 768 ? 100 : 80} // Увеличен внешний радиус
+              innerRadius={window.innerWidth > 768 ? 80 : 60}
+              outerRadius={window.innerWidth > 768 ? 100 : 80}
               startAngle={90}
               endAngle={-270}
               paddingAngle={4}
@@ -51,17 +92,17 @@ const BalanceInfoCard = () => {
                 <Cell key={`cell-${index}`} fill={COLORS[index]} />
               ))}
             </Pie>
-            <text
+            {/* <text
               x="50%"
               y="50%"
               textAnchor="middle"
               dominantBaseline="middle"
-              fontSize={window.innerWidth > 768 ? 24 : 18} // Увеличен размер текста
+              fontSize={window.innerWidth > 768 ? 24 : 18}
               fontWeight={600}
               fill="#2E2E2E"
             >
               {percent}%
-            </text>
+            </text> */}
           </PieChart>
         </div>
 

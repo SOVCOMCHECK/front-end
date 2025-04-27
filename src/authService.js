@@ -1,7 +1,8 @@
 import Keycloak from 'keycloak-js';
 import { jwtDecode } from 'jwt-decode';
 
-const KEYCLOAK_HOST = 'http://localhost:8282/';
+const KEYCLOAK_HOST = 'http://localhost:8282'
+// 'https://158.160.109.57:8443';
 const SOVCOMCHECK = 'sovcomcheck';
 
 let initOptions = {

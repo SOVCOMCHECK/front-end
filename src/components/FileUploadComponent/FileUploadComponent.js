@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import styles from './FileUploadComponent.module.css';
+import authService from '../../authService'; // Импортируем getUserId из вашего сервиса аутентификации
+import { useNavigate } from 'react-router-dom'; // Для навигации
+import {GLOBAL_HOST} from '../../App'
 
 const FileUploadComponent = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [serverResponse, setServerResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [checkId, setCheckId] = useState(null); // ID чека для подтверждения/отмены
+  const navigate = useNavigate(); // Для навигации
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -24,48 +29,87 @@ const FileUploadComponent = () => {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      const mockHtmlResponse = `
-        <table class="b-check_table table">
-          <tbody>
-            <tr class="b-check_center"><td colspan="5">АКЦИОНЕРНОЕ ОБЩЕСТВО "ТАНДЕР"</td></tr>
-            <tr class="b-check_center"><td colspan="5">410049, Саратовская обл, Саратов г, Энтузиастов пр-кт, дом № 29, помещение 2</td></tr>
-            <tr class="b-check_center"><td colspan="5">ИНН 2310031475</td></tr>
-            <tr class="b-check_center"><td colspan="5">&nbsp;</td></tr>
-            <tr class="b-check_center"><td colspan="5">24.04.2025 17:43</td></tr>
-            <tr class="b-check_center"><td colspan="5">Чек № 67</td></tr>
-            <tr class="b-check_center"><td colspan="5">Смена № 123</td></tr>
-            <tr class="b-check_center"><td colspan="5">Кассир</td></tr>
-            <tr class="b-check_center"><td colspan="5">Приход</td></tr>
-            <tr><td><strong>№</strong></td><td><strong>Название</strong></td><td><strong>Цена</strong></td><td><strong>Кол.</strong></td><td><strong>Сумма</strong></td></tr>
-            <tr><td>1</td><td>МАГНИТ Пакет-майка большой 15кг</td><td>9.99</td><td>1</td><td>9.99</td></tr>
-            <tr><td>2</td><td>RICHARD Royal Ceylon Чай черный 100пак 200г к</td><td>289.99</td><td>1</td><td>289.99</td></tr>
-            <tr><td>3</td><td>GREEN MILK Нап Фермен яч/нут кокос1л т/п</td><td>114.99</td><td>1</td><td>114.99</td></tr>
-            <tr><td>4</td><td>MAKFA Макароны петуш. гребешки в/с 450г :10</td><td>67.99</td><td>1</td><td>67.99</td></tr>
-            <tr><td>5</td><td>SEN SOY Соус соевый классический 1л п/бут(Рос</td><td>149.99</td><td>1</td><td>149.99</td></tr>
-            <tr><td>6</td><td>КУХМАСТЕР Kremareo Печенье Лесной орех 100г:1</td><td>34.99</td><td>1</td><td>34.99</td></tr>
-            <tr><td>7</td><td>ВОСТОЧНЫЙ ГОСТЬ Кунжут 20г сашет:20</td><td>29.99</td><td>1</td><td>29.99</td></tr>
-            <tr><td>8</td><td>HEINZ Соус Сладкий чили 200г д/п (Петропродук</td><td>119.99</td><td>1</td><td>119.99</td></tr>
-            <tr><td>9</td><td>Лаваш Ливанский 300г п/уп(Знак хлеба)</td><td>47.99</td><td>1</td><td>47.99</td></tr>
-            <tr><td>10</td><td>БАНАНЫ 1кг</td><td>179.99</td><td>0.694</td><td>124.91</td></tr>
-            <tr><td colspan="3" class="b-check_itogo">ИТОГО:</td><td></td><td class="b-check_itogo">990.82</td></tr>
-            <tr><td colspan="3">Наличные</td><td></td><td>0.00</td></tr>
-            <tr><td colspan="3">Карта</td><td></td><td>990.82</td></tr>
-            <tr><td colspan="3">НДС итога чека со ставкой 20%</td><td></td><td>121.65</td></tr>
-            <tr><td colspan="3">НДС итога чека со ставкой 10%</td><td></td><td>23.72</td></tr>
-            <tr><td colspan="5" class="b-check_center">ВИД НАЛОГООБЛОЖЕНИЯ: ОСН</td></tr>
-            <tr><td colspan="5">РЕГ.НОМЕР ККТ: 0008618227013847    </td></tr>
-            <tr><td colspan="5">ЗАВОД. №: </td></tr>
-            <tr><td colspan="5">ФН: 7380440700556581</td></tr>
-            <tr><td colspan="5">ФД: 10244</td></tr>
-            <tr><td colspan="5">ФПД#: 3866612080</td></tr>
-            <tr><td colspan="5" class="b-check_center"><img src="/qrcode/generate?text=t%3D20250424T1743%26s%3D990.82%26fn%3D7380440700556581%26i%3D10244%26fp%3D3866612080%26n%3D1" alt="QR код чека" width="35%" loading="lazy" decoding="async"></td></tr>
-          </tbody>
-        </table>
-      `;
-      setServerResponse(mockHtmlResponse);
+    try {
+      const userId = authService.getUserId(); // Получаем ID пользователя
+      if (!userId) {
+        throw new Error('Пользователь не авторизован');
+      }
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      // Отправляем запрос на сервер
+      const response = await fetch(`${GLOBAL_HOST}/checks/users/${userId}/process`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка при отправке файла');
+      }
+
+      const data = await response.json();
+
+      console.log(data);
+      
+
+      // Проверяем статус обработки
+      if (data.status === 'FAILED') {
+        alert(`Ошибка обработки: ${data.message}`);
+      } else {
+        // Сохраняем ID чека для подтверждения/отмены
+        setCheckId(data.checkId);
+        // Устанавливаем HTML-ответ из DTO
+        setServerResponse(data.checkData.data.html);
+      }
+    } catch (error) {
+      console.error(error);
+      alert(error.message || 'Произошла ошибка');
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
+  };
+
+  const handleConfirm = async (approved) => {
+    if (!checkId) {
+      alert('ID чека не найден');
+      return;
+    }
+
+    try {
+
+      console.log(checkId);      
+
+      // Отправляем запрос на подтверждение/отмену
+      const response = await fetch(`${GLOBAL_HOST}/checks/${checkId}/confirm?approved=${approved}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка при подтверждении/отмене чека');
+      }
+
+      // Если подтверждено, переходим на главную страницу
+      if (approved) {
+        navigate('/main'); // Перенаправление на главную страницу
+      } else {
+        // Если отменено, сбрасываем состояние
+        resetState();
+      }
+    } catch (error) {
+      console.error(error);
+      alert(error.message || 'Произошла ошибка');
+    }
+  };
+
+  const resetState = () => {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setServerResponse(null);
+    setCheckId(null);
   };
 
   return (
@@ -111,6 +155,24 @@ const FileUploadComponent = () => {
       >
         {isLoading ? 'Отправка...' : 'Отправить файл'}
       </button>
+
+      {/* Кнопки подтверждения/отмены */}
+      {serverResponse && (
+        <div className={styles.confirmButtons}>
+          <button
+            onClick={() => handleConfirm(true)}
+            className={styles.confirmButton}
+          >
+            Подтвердить
+          </button>
+          <button
+            onClick={() => handleConfirm(false)}
+            className={styles.cancelButton}
+          >
+            Отменить
+          </button>
+        </div>
+      )}
     </div>
   );
 };
